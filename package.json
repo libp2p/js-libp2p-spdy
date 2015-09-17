@@ -1,6 +1,6 @@
 {
   "name": "libp2p-spdy",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Node.js libp2p-spdy for multistream into Stream Multiplexing using the SPDY 3.1 spec framing laye",
   "main": "src/index.js",
   "scripts": {
