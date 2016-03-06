@@ -35,6 +35,7 @@
     "timed-tape": "^0.1.0"
   },
   "dependencies": {
+    "mocha": "^2.4.5",
     "spdy-transport": "^2.0.10"
   }
 }
