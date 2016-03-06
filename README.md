@@ -1,6 +1,76 @@
-node-libp2p-spdy
-================
+js-libp2p-spdy
+==============
 
-[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://ipn.io) [[![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg?style=flat-square)](http://webchat.freenode.net/?channels=%23ipfs) ![Build Status](https://travis-ci.org/diasdavid/node-libp2p-spdy.svg?style=flat-square)](https://travis-ci.org/diasdavid/node-libp2p-spdy) ![](https://img.shields.io/badge/coverage-%3F-yellow.svg?style=flat-square) [![Dependency Status](https://david-dm.org/diasdavid/node-libp2p-spdy.svg?style=flat-square)](https://david-dm.org/diasdavid/node-libp2p-spdy) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard)
+[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://ipn.io)
+[![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg?style=flat-square)](http://webchat.freenode.net/?channels=%23ipfs)
+![Build Status](https://travis-ci.org/diasdavid/js-libp2p-spdy.svg?style=flat-square)](https://travis-ci.org/diasdavid/js-libp2p-spdy)
+![](https://img.shields.io/badge/coverage-%3F-yellow.svg?style=flat-square)
+[![Dependency Status](https://david-dm.org/diasdavid/js-libp2p-spdy.svg?style=flat-square)](https://david-dm.org/diasdavid/js-libp2p-spdy)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard)
 
-> Node.js libp2p-spdy for multistream into Stream Multiplexing using the SPDY 3.1 spec framing layer
+> SPDY 3.1 implementation wrapper that is compatible with libp2p Stream Muxer expected interface
+
+# Usage
+
+## Install
+
+```sh
+> npm i libp2p-spdy
+```
+
+## In tour code
+
+```JavaScript
+const spdy = require('libp2p-spdy')
+```
+
+## API
+
+#### Attaching it to a socket (duplex stream)
+
+**As a listener**
+
+```JavaScript
+const listener = spdy(socket, true)
+```
+
+**As a dialer**
+
+```JavaScript
+const dialer = spdy(socket, false)
+```
+
+#### Opening a multiplex duplex stream
+
+```JavaScript
+const conn = dialer.newStream((err, conn) => {})
+
+conn.on('error', (err) => {})
+```
+
+note: Works the same on the listener side
+
+#### Receiving incoming stream
+
+```JavaScript
+dialer.on('stream', (conn) => {})
+```
+
+note: Works the same on the listener side
+
+#### Close
+
+```JavaScript
+dialer.close()
+```
+
+note: Works the same on the listener side
+
+#### Other events
+
+```JavaScript
+dialer.on('close', () => {})
+dialer.on('error', () => {})
+```
+
+note: Works the same on the listener side

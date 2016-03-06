@@ -1,12 +1,18 @@
 {
   "name": "libp2p-spdy",
   "version": "0.1.0",
-  "description": "Node.js libp2p-spdy for multistream into Stream Multiplexing using the SPDY 3.1 spec framing laye",
+  "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "node tests/test.js"
+    "lint": "standard",
+    "test": "mocha tests/*-test.js",
+    "compliance": "node tests/compliance/test.js"
   },
-  "pre-commit": [],
+  "pre-commit": [
+    "lint",
+    "test",
+    "compliance"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/diasdavid/node-libp2p-spdy.git"
@@ -21,18 +27,15 @@
   },
   "homepage": "https://github.com/diasdavid/node-libp2p-spdy",
   "devDependencies": {
-    "abstract-stream-muxer": "^0.2.4",
-    "code": "^1.5.0",
-    "lab": "^5.17.0",
-    "pre-commit": "^1.1.1",
-    "standard": "^5.3.0",
+    "chai": "^3.5.0",
+    "interface-stream-muxer": "^0.2.5",
+    "pre-commit": "^1.1.2",
+    "standard": "^6.0.7",
     "stream-pair": "^1.0.3",
     "tape": "^4.2.0",
     "timed-tape": "^0.1.0"
   },
   "dependencies": {
-    "duplex-passthrough": "diasdavid/duplex-passthrough",
-    "multistream-select": "^0.6.2",
-    "spdy-transport": "^1.1.8"
+    "spdy-transport": "^2.0.10"
   }
 }
