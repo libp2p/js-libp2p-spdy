@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "standard",
     "test": "mocha tests/*-test.js",
-    "compliance": "node tests/compliance/test.js"
+    "compliance": "node tests/compliance.js"
   },
   "pre-commit": [
     "lint",
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/diasdavid/node-libp2p-spdy.git"
+    "url": "https://github.com/diasdavid/js-libp2p-spdy.git"
   },
   "keywords": [
     "IPFS"
@@ -22,12 +22,12 @@
   "author": "David Dias <daviddias@ipfs.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/diasdavid/node-libp2p-spdy/issues"
+    "url": "https://github.com/diasdavid/njs-libp2p-spdy/issues"
   },
-  "homepage": "https://github.com/diasdavid/node-libp2p-spdy",
+  "homepage": "https://github.com/diasdavid/js-libp2p-spdy",
   "devDependencies": {
     "chai": "^3.5.0",
-    "interface-stream-muxer": "^0.2.5",
+    "interface-stream-muxer": "^0.3.1",
     "pre-commit": "^1.1.2",
     "standard": "^6.0.7",
     "stream-pair": "^1.0.3",

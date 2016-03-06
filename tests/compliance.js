@@ -1,6 +1,6 @@
 var tape = require('tape')
-var tests = require('./index')
-var spdy = require('./../../src')
+var tests = require('interface-stream-muxer')
+var spdy = require('./../src')
 
 var common = {
   setup: function (t, cb) {
