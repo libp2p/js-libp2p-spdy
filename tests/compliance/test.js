@@ -1,10 +1,10 @@
 var tape = require('tape')
-var tests = require('./compliance')
-var SpdyStreamMuxer = require('../src')
+var tests = require('./index')
+var spdy = require('./../../src')
 
 var common = {
   setup: function (t, cb) {
-    cb(null, SpdyStreamMuxer)
+    cb(null, spdy)
   },
   teardown: function (t, cb) {
     cb()
