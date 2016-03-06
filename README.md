@@ -10,6 +10,8 @@ js-libp2p-spdy
 
 > SPDY 3.1 implementation wrapper that is compatible with libp2p Stream Muxer expected interface
 
+[![](https://github.com/diasdavid/interface-stream-muxer/raw/master/img/badge.png)](https://github.com/diasdavid/interface-stream-muxer)
+
 # Usage
 
 ## Install
