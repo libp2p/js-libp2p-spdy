@@ -1,6 +1,6 @@
 const spdy = require('spdy-transport')
 
-module.exports = function (transport, isListener) {
+exports = module.exports = function (transport, isListener) {
   const muxer = spdy.connection.create(transport, {
     protocol: 'spdy',
     isServer: isListener
@@ -27,8 +27,10 @@ module.exports = function (transport, isListener) {
   // muxer.on('error', (err) => {})
   // muxer.end()
 
-  muxer.multicodec = '/spdy/3.1.0'
+  muxer.multicodec = exports.multicodec
   return muxer
 }
+
+exports.multicodec = '/spdy/3.1.0'
 
 function noop () {}
