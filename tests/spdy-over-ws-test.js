@@ -61,4 +61,7 @@ describe('spdy', () => {
     conn.on('end', done)
     conn.end()
   })
+
+  it('open a multiplex stream from dialer and write to it', (done) => {})
+  it('open a multiplex stream from listener and write to it', (done) => {})
 })

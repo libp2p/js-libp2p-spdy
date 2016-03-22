@@ -2,7 +2,7 @@
 
 const expect = require('chai').expect
 const WSlibp2p = require('libp2p-websockets')
-const spdy = require('../src')
+const spdy = require('./../../src')
 const multiaddr = require('multiaddr')
 
 describe('browser + server', () => {
@@ -13,10 +13,9 @@ describe('browser + server', () => {
   })
 
   it('create a stream and wait for server to create another', (done) => {
-    const mh = multiaddr('/ip4/127.0.0.1/tcp/9090/websockets')
-    const dialerSocket = ws.dial(mh)
+    const mh = multiaddr('/ip4/127.0.0.1/tcp/9095/websockets')
 
-    const dialer = spdy(dialerSocket, false)
+    const dialer = spdy(ws.dial(mh), false)
     dialer.on('stream', (conn) => {
       conn.on('data', (data) => {
         expect(data.toString()).to.equal('hey')
