@@ -5,6 +5,8 @@ const WSlibp2p = require('libp2p-websockets')
 const multiaddr = require('multiaddr')
 const bl = require('bl')
 const spdy = require('../src')
+const path = require('path')
+const fs = require('fs')
 
 describe('spdy-over-ws', () => {
   var listener
@@ -67,14 +69,13 @@ describe('spdy-over-ws', () => {
     conn.end()
   })
 
-  it('open a multiplex stream from dialer and write to it', (done) => {
+  it('open a spdy stream from dialer and write to it', (done) => {
     listener.once('stream', (conn) => {
       conn.pipe(conn)
     })
 
     const conn = dialer.newStream()
-    conn.write('hey')
-    conn.write('ho')
+    conn.write('hello world')
     conn.end()
 
     conn.on('error', (err) => {
@@ -82,19 +83,18 @@ describe('spdy-over-ws', () => {
     })
     conn.pipe(bl((err, data) => {
       expect(err).to.not.exist
-      expect(data.toString()).to.equal('heyho')
+      expect(data.toString()).to.equal('hello world')
       done()
     }))
   })
 
-  it('open a multiplex stream from listener and write to it', (done) => {
+  it('open a spdy stream from listener and write to it', (done) => {
     dialer.once('stream', (conn) => {
       conn.pipe(conn)
     })
 
     const conn = listener.newStream()
-    conn.write('hey')
-    conn.write('ho')
+    conn.write('hello world')
     conn.end()
 
     conn.on('error', (err) => {
@@ -102,7 +102,29 @@ describe('spdy-over-ws', () => {
     })
     conn.pipe(bl((err, data) => {
       expect(err).to.not.exist
-      expect(data.toString()).to.equal('heyho')
+      expect(data.toString()).to.equal('hello world')
+      done()
+    }))
+  })
+
+  it('open a spdy stream from listener and write a lot', (done) => {
+    dialer.once('stream', (conn) => {
+      conn.pipe(conn)
+    })
+
+    const filePath = path.join(process.cwd(), '/tests/test-data/1.2MiB.txt')
+
+    const conn = listener.newStream()
+    fs.createReadStream(filePath).pipe(conn)
+
+    conn.on('error', (err) => {
+      expect(err).to.not.exist
+    })
+
+    conn.pipe(bl((err, data) => {
+      expect(err).to.not.exist
+      const expected = fs.readFileSync(filePath)
+      expect(data).to.deep.equal(expected)
       done()
     }))
   })
