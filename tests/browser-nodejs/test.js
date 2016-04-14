@@ -9,23 +9,15 @@ var ws
 function createListener (done) {
   ws = new WSlibp2p()
   const mh = multiaddr('/ip4/127.0.0.1/tcp/9095/websockets')
-  ws.createListener(mh, (socket) => {
-    const listener = spdy(socket, true)
+  ws.createListener(mh, (transportSocket) => {
+    const muxedConn = spdy(transportSocket, true)
 
-    listener.on('stream', (connRx) => {
-      listener.newStream((err, connTx) => {
-        if (err) {
-          throw err
-        }
-
-        connRx.pipe(connTx)
-      })
+    muxedConn.on('stream', (connRx) => {
+      const connTx = muxedConn.newStream()
+      connRx.pipe(connTx)
+      connTx.pipe(connRx)
     })
   }, done)
-}
-
-function stopServer (done) {
-  ws.close(done)
 }
 
 function run (done) {
@@ -36,4 +28,8 @@ function run (done) {
   return karmaServer.start()
 }
 
-createListener(() => run((exitCode) => stopServer(() => process.exit(exitCode))))
+createListener(() => {
+  run((exitCode) => {
+    process.exit(exitCode)
+  })
+})

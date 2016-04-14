@@ -12,23 +12,27 @@ describe('browser + server', () => {
     done()
   })
 
-  it('create a stream and wait for server to create another', (done) => {
+  it('ricochet test', (done) => {
     const mh = multiaddr('/ip4/127.0.0.1/tcp/9095/websockets')
 
-    const dialer = spdy(ws.dial(mh), false)
-    dialer.on('stream', (conn) => {
+    const transportSocket = ws.dial(mh)
+
+    const muxedConn = spdy(transportSocket, false)
+
+    muxedConn.on('stream', (conn) => {
       conn.on('data', (data) => {
         expect(data.toString()).to.equal('hey')
+      })
+
+      conn.on('end', () => {
         conn.end()
-        done()
       })
     })
 
-    const conn = dialer.newStream()
+    const conn = muxedConn.newStream()
     conn.write('hey')
-
-    conn.on('error', (err) => {
-      expect(err).to.not.exist
-    })
+    conn.end()
+    conn.on('data', () => {}) // let it floooow
+    conn.on('end', done)
   })
 })

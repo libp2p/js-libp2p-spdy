@@ -46,6 +46,7 @@
     "webpack": "^2.1.0-beta.4"
   },
   "dependencies": {
+    "browserify-zlib": "github:ipfs/browserify-zlib",
     "mocha": "^2.4.5",
     "spdy-transport": "^2.0.10"
   }
