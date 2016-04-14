@@ -1,3 +1,5 @@
+'use strict'
+
 const karma = require('karma')
 const path = require('path')
 const WSlibp2p = require('libp2p-websockets')
