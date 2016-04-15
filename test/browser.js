@@ -1,13 +1,12 @@
-'use strict'
-
 /* eslint-env mocha */
+'use strict'
 
 const expect = require('chai').expect
 const WSlibp2p = require('libp2p-websockets')
-const spdy = require('./../../src')
+const spdy = require('../src')
 const multiaddr = require('multiaddr')
 
-describe('browser + server', () => {
+describe('browser-server', () => {
   var ws
   before((done) => {
     ws = new WSlibp2p()

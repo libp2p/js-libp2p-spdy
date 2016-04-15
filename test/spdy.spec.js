@@ -5,7 +5,7 @@ const expect = require('chai').expect
 const streamPair = require('stream-pair')
 const spdy = require('../src')
 
-describe('spdy', () => {
+describe('spdy-generic', () => {
   var listenerSocket
   var dialerSocket
 

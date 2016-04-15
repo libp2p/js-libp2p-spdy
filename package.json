@@ -5,12 +5,17 @@
   "main": "lib/index.js",
   "jsnext:main": "src/index.js",
   "scripts": {
-    "test": "aegir-test node",
-    "compliance": "node test/compliance.js",
-    "lint": "aegir-lint",
-    "release": "aegir-release node",
-    "release-minor": "aegir-release node --minor",
-    "release-major": "aegir-release node --major"
+    "compliance": "node test/compliance.js | tap-spec",
+    "lint": "gulp lint",
+    "build": "gulp build",
+    "test": "gulp test",
+    "test:node": "gulp test:node",
+    "test:browser": "gulp test:browser",
+    "release": "gulp release",
+    "release-minor": "gulp release --minor",
+    "release-major": "gulp release --major",
+    "coverage": "gulp coverage",
+    "coverage-publish": "aegir-coverage publish"
   },
   "pre-commit": [
     "lint",
@@ -34,13 +39,7 @@
     "chai": "^3.5.0",
     "aegir": "^2.1.0",
     "interface-stream-muxer": "^0.3.1",
-    "karma": "^0.13.22",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-mocha": "^0.2.2",
-    "karma-spec-reporter": "0.0.24",
-    "karma-webpack": "^1.7.0",
-    "libp2p-websockets": "^0.2.1",
+    "libp2p-websockets": "^0.3.2",
     "pre-commit": "^1.1.2",
     "stream-pair": "^1.0.3",
     "tape": "^4.2.0"
