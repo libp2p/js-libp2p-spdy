@@ -2,13 +2,20 @@
   "name": "libp2p-spdy",
   "version": "0.3.0",
   "description": "SPDY 3.1 implementation wrapper that is compatible with libp2p Stream Muxer expected interface",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "jsnext:main": "src/index.js",
   "scripts": {
-    "lint": "standard",
-    "test:node": "mocha tests/*-test.js",
-    "test:browser": "node tests/browser-nodejs/test.js",
-    "test": "npm run test:node && npm run test:browser",
-    "compliance": "node tests/compliance.js"
+    "compliance": "node test/compliance.js | tap-spec",
+    "lint": "gulp lint",
+    "build": "gulp build",
+    "test": "gulp test",
+    "test:node": "gulp test:node",
+    "test:browser": "gulp test:browser",
+    "release": "gulp release",
+    "release-minor": "gulp release --minor",
+    "release-major": "gulp release --major",
+    "coverage": "gulp coverage",
+    "coverage-publish": "aegir-coverage publish"
   },
   "pre-commit": [
     "lint",
@@ -24,30 +31,21 @@
   "author": "David Dias <daviddias@ipfs.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/diasdavid/njs-libp2p-spdy/issues"
+    "url": "https://github.com/diasdavid/js-libp2p-spdy/issues"
   },
   "homepage": "https://github.com/diasdavid/js-libp2p-spdy",
   "devDependencies": {
     "bl": "^1.1.2",
     "chai": "^3.5.0",
+    "aegir": "^2.1.0",
     "interface-stream-muxer": "^0.3.1",
-    "karma": "^0.13.22",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-mocha": "^0.2.2",
-    "karma-spec-reporter": "0.0.24",
-    "karma-webpack": "^1.7.0",
-    "libp2p-websockets": "^0.2.1",
+    "libp2p-websockets": "^0.3.2",
     "pre-commit": "^1.1.2",
-    "standard": "^6.0.7",
     "stream-pair": "^1.0.3",
-    "tape": "^4.2.0",
-    "timed-tape": "^0.1.0",
-    "webpack": "^2.1.0-beta.4"
+    "tape": "^4.2.0"
   },
   "dependencies": {
     "browserify-zlib": "github:ipfs/browserify-zlib",
-    "mocha": "^2.4.5",
     "spdy-transport": "^2.0.10"
   }
 }

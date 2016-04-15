@@ -1,3 +1,5 @@
+'use strict'
+
 /* eslint-env mocha */
 
 const expect = require('chai').expect
@@ -112,7 +114,7 @@ describe('spdy-over-ws', () => {
       conn.pipe(conn)
     })
 
-    const filePath = path.join(process.cwd(), '/tests/test-data/1.2MiB.txt')
+    const filePath = path.join(process.cwd(), '/test/test-data/1.2MiB.txt')
 
     const conn = listener.newStream()
     fs.createReadStream(filePath).pipe(conn)

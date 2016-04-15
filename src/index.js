@@ -1,3 +1,5 @@
+'use strict'
+
 const spdy = require('spdy-transport')
 
 exports = module.exports = function (transport, isListener) {
