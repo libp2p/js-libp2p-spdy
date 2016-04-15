@@ -47,5 +47,10 @@
   "dependencies": {
     "browserify-zlib": "github:ipfs/browserify-zlib",
     "spdy-transport": "^2.0.10"
-  }
+  },
+  "contributors": [
+    "David Dias <daviddias.p@gmail.com>",
+    "Francisco Baio Dias <xicombd@gmail.com>",
+    "JGAntunes <j.goncalo.antunes@gmail.com>"
+  ]
 }
