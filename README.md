@@ -3,9 +3,10 @@ js-libp2p-spdy
 
 [![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://ipn.io)
 [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg?style=flat-square)](http://webchat.freenode.net/?channels=%23ipfs)
-[![Build Status](https://travis-ci.org/diasdavid/js-libp2p-spdy.svg?style=flat-square)](https://travis-ci.org/diasdavid/js-libp2p-spdy)
-![](https://img.shields.io/badge/coverage-100%25-green.svg?style=flat-square)
+[![Coverage Status](https://coveralls.io/repos/github/diasdavid/js-libp2p-spdy/badge.svg?branch=master)](https://coveralls.io/github/diasdavid/js-libp2p-spdy?branch=master)
 [![Dependency Status](https://david-dm.org/diasdavid/js-libp2p-spdy.svg?style=flat-square)](https://david-dm.org/diasdavid/js-libp2p-spdy)
+[![Travis CI](https://travis-ci.org/diasdavid/js-libp2p-spdy.svg?branch=master)](https://travis-ci.org/diasdavid/js-libp2p-spdy)
+[![Circle CI](https://circleci.com/gh/diasdavid/js-libp2p-spdy.svg?style=svg)](https://circleci.com/gh/diasdavid/js-libp2p-spdy)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard)
 
 > SPDY 3.1 implementation wrapper that is compatible with libp2p Stream Muxer expected interface
