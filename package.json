@@ -12,8 +12,8 @@
     "test:node": "gulp test:node",
     "test:browser": "gulp test:browser",
     "release": "gulp release",
-    "release-minor": "gulp release --minor",
-    "release-major": "gulp release --major",
+    "release-minor": "gulp release --type minor",
+    "release-major": "gulp release --type major",
     "coverage": "gulp coverage",
     "coverage-publish": "aegir-coverage publish"
   },
@@ -35,11 +35,12 @@
   },
   "homepage": "https://github.com/diasdavid/js-libp2p-spdy",
   "devDependencies": {
+    "aegir": "^3.0.4",
     "bl": "^1.1.2",
     "chai": "^3.5.0",
-    "aegir": "^2.1.0",
     "interface-stream-muxer": "^0.3.1",
-    "libp2p-websockets": "^0.3.2",
+    "libp2p-websockets": "^0.4.0",
+    "multiaddr": "^2.0.0",
     "pre-commit": "^1.1.2",
     "stream-pair": "^1.0.3",
     "tape": "^4.2.0"

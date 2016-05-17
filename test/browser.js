@@ -7,17 +7,15 @@ const spdy = require('../src')
 const multiaddr = require('multiaddr')
 
 describe('browser-server', () => {
-  var ws
+  let ws
   before((done) => {
     ws = new WSlibp2p()
     done()
   })
 
   it('ricochet test', (done) => {
-    const mh = multiaddr('/ip4/127.0.0.1/tcp/9095/websockets')
-
+    const mh = multiaddr('/ip4/127.0.0.1/tcp/9095/ws')
     const transportSocket = ws.dial(mh)
-
     const muxedConn = spdy(transportSocket, false)
 
     muxedConn.on('stream', (conn) => {

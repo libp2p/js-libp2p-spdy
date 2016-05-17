@@ -11,11 +11,11 @@ const path = require('path')
 const fs = require('fs')
 
 describe('spdy-over-ws', () => {
-  var listener
-  var dialer
+  let listener
+  let dialer
 
-  var ws
-  var mh = multiaddr('/ip4/127.0.0.1/tcp/9090/websockets')
+  let ws
+  let mh = multiaddr('/ip4/127.0.0.1/tcp/9090/ws')
 
   before((done) => {
     ws = new WSlibp2p()

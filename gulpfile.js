@@ -6,11 +6,11 @@ const multiaddr = require('multiaddr')
 
 const spdy = require('./src')
 
-var ws
+let ws
 
 gulp.task('test:browser:before', (done) => {
   ws = new WSlibp2p()
-  const mh = multiaddr('/ip4/127.0.0.1/tcp/9095/websockets')
+  const mh = multiaddr('/ip4/127.0.0.1/tcp/9095/ws')
   ws.createListener(mh, (transportSocket) => {
     const muxedConn = spdy(transportSocket, true)
 
