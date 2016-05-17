@@ -6,11 +6,11 @@ const streamPair = require('stream-pair')
 const spdy = require('../src')
 
 describe('spdy-generic', () => {
-  var listenerSocket
-  var dialerSocket
+  let listenerSocket
+  let dialerSocket
 
-  var listener
-  var dialer
+  let listener
+  let dialer
 
   before((done) => {
     const pair = streamPair.create()
