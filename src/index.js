@@ -29,6 +29,12 @@ exports = module.exports = function (transport, isListener) {
   // muxer.on('error', (err) => {})
   // muxer.end()
 
+  // needed by other spdy impl that need the response headers in order
+  // to confirm the stream can be open
+  muxer.on('stream', (stream) => {
+    stream.respond(200, {})
+  })
+
   muxer.multicodec = exports.multicodec
   return muxer
 }
