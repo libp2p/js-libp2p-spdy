@@ -1,6 +1,6 @@
 {
   "name": "libp2p-spdy",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "SPDY 3.1 implementation wrapper that is compatible with libp2p Stream Muxer expected interface",
   "main": "lib/index.js",
   "jsnext:main": "src/index.js",
