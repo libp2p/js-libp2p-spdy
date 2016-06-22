@@ -23,7 +23,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/diasdavid/js-libp2p-spdy.git"
+    "url": "https://github.com/libp2p/js-libp2p-spdy.git"
   },
   "keywords": [
     "IPFS"
@@ -31,15 +31,15 @@
   "author": "David Dias <daviddias@ipfs.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/diasdavid/js-libp2p-spdy/issues"
+    "url": "https://github.com/libp2p/js-libp2p-spdy/issues"
   },
-  "homepage": "https://github.com/diasdavid/js-libp2p-spdy",
+  "homepage": "https://github.com/libp2p/js-libp2p-spdy",
   "devDependencies": {
-    "aegir": "^3.0.4",
+    "aegir": "^3.2.0",
     "bl": "^1.1.2",
     "chai": "^3.5.0",
     "interface-stream-muxer": "^0.3.1",
-    "libp2p-websockets": "^0.6.0",
+    "libp2p-websockets": "^0.7.0",
     "multiaddr": "^2.0.0",
     "pre-commit": "^1.1.2",
     "stream-pair": "^1.0.3",
