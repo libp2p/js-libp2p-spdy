@@ -6,12 +6,12 @@ const multiaddr = require('multiaddr')
 
 const spdy = require('./src')
 
-let ws
+let listener
 
 gulp.task('test:browser:before', (done) => {
-  ws = new WSlibp2p()
+  const ws = new WSlibp2p()
   const mh = multiaddr('/ip4/127.0.0.1/tcp/9095/ws')
-  ws.createListener(mh, (transportSocket) => {
+  listener = ws.createListener((transportSocket) => {
     const muxedConn = spdy(transportSocket, true)
 
     muxedConn.on('stream', (connRx) => {
@@ -19,11 +19,12 @@ gulp.task('test:browser:before', (done) => {
       connRx.pipe(connTx)
       connTx.pipe(connRx)
     })
-  }, done)
+  })
+  listener.listen(mh, done)
 })
 
 gulp.task('test:browser:after', (done) => {
-  ws.close(done)
+  listener.close(done)
 })
 
 require('aegir/gulp')(gulp)

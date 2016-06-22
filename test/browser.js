@@ -8,9 +8,9 @@ const multiaddr = require('multiaddr')
 
 describe('browser-server', () => {
   let ws
-  before((done) => {
+
+  before(() => {
     ws = new WSlibp2p()
-    done()
   })
 
   it('ricochet test', (done) => {

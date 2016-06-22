@@ -17,18 +17,18 @@ describe('spdy-over-ws', () => {
   let ws
   let mh = multiaddr('/ip4/127.0.0.1/tcp/9090/ws')
 
-  before((done) => {
+  before(() => {
     ws = new WSlibp2p()
-
-    done()
   })
 
   it('attach to a websocket, as listener', (done) => {
-    ws.createListener(mh, (socket) => {
+    const wsListener = ws.createListener((socket) => {
       expect(socket).to.exist
       listener = spdy(socket, true)
       expect(listener).to.exist
-    }, done)
+    })
+
+    wsListener.listen(mh, done)
   })
 
   it('attach to a websocket, as dialer', (done) => {
