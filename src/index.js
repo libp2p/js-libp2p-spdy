@@ -1,6 +1,8 @@
 'use strict'
 
 const spdy = require('spdy-transport')
+const Connection = require('interface-connection').Connection
+const EE = require('events').EventEmitter
 
 exports = module.exports = function (transport, isListener) {
   const muxer = spdy.connection.create(transport, {
@@ -8,35 +10,46 @@ exports = module.exports = function (transport, isListener) {
     isServer: isListener
   })
 
+  const proxyMuxer = new EE()
+
   muxer.start(3.1)
 
   // method added to enable pure stream muxer feeling
-  muxer.newStream = (callback) => {
+  proxyMuxer.newStream = (callback) => {
     if (!callback) {
       callback = noop
     }
 
-    return muxer.request({
+    return new Connection(muxer.request({
       method: 'POST',
       path: '/',
       headers: {}
-    }, callback)
+    }, callback))
   }
 
   // The rest of the API comes by default with SPDY
-  // muxer.on('stream', (stream) => {})
-  // muxer.on('close', () => {})
-  // muxer.on('error', (err) => {})
-  // muxer.end()
-
-  // needed by other spdy impl that need the response headers in order
-  // to confirm the stream can be open
-  muxer.on('stream', (stream) => {
-    stream.respond(200, {})
+  muxer.on('close', () => {
+    proxyMuxer.emit('close')
   })
 
-  muxer.multicodec = exports.multicodec
-  return muxer
+  muxer.on('error', (err) => {
+    proxyMuxer.emit('error', err)
+  })
+
+  proxyMuxer.end = () => {
+    muxer.end()
+  }
+
+  // needed by other spdy impl that need the response headers
+  // in order to confirm the stream can be open
+  muxer.on('stream', (stream) => {
+    stream.respond(200, {})
+    const conn = new Connection(stream)
+    proxyMuxer.emit('stream', conn)
+  })
+
+  proxyMuxer.multicodec = exports.multicodec
+  return proxyMuxer
 }
 
 exports.multicodec = '/spdy/3.1.0'
