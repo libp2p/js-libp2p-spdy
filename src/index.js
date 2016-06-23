@@ -4,8 +4,8 @@ const spdy = require('spdy-transport')
 const Connection = require('interface-connection').Connection
 const EE = require('events').EventEmitter
 
-exports = module.exports = function (transport, isListener) {
-  const muxer = spdy.connection.create(transport, {
+exports = module.exports = function (conn, isListener) {
+  const muxer = spdy.connection.create(conn, {
     protocol: 'spdy',
     isServer: isListener
   })
@@ -20,11 +20,19 @@ exports = module.exports = function (transport, isListener) {
       callback = noop
     }
 
-    return new Connection(muxer.request({
+    const muxedConn = new Connection(muxer.request({
       method: 'POST',
       path: '/',
       headers: {}
     }, callback))
+
+    if (conn.getObservedAddrs) {
+      muxedConn.getObservedAddrs = conn.getObservedAddrs.bind(conn)
+      muxedConn.getPeerInfo = conn.getPeerInfo.bind(conn)
+      muxedConn.serPeerInfo = conn.setPeerInfo.bind(conn)
+    }
+
+    return muxedConn
   }
 
   // The rest of the API comes by default with SPDY
@@ -44,8 +52,13 @@ exports = module.exports = function (transport, isListener) {
   // in order to confirm the stream can be open
   muxer.on('stream', (stream) => {
     stream.respond(200, {})
-    const conn = new Connection(stream)
-    proxyMuxer.emit('stream', conn)
+    const muxedConn = new Connection(stream)
+    if (conn.getObservedAddrs) {
+      muxedConn.getObservedAddrs = conn.getObservedAddrs.bind(conn)
+      muxedConn.getPeerInfo = conn.getPeerInfo.bind(conn)
+      muxedConn.serPeerInfo = conn.setPeerInfo.bind(conn)
+    }
+    proxyMuxer.emit('stream', muxedConn)
   })
 
   proxyMuxer.multicodec = exports.multicodec
