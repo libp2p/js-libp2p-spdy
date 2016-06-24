@@ -29,7 +29,7 @@ exports = module.exports = function (conn, isListener) {
     if (conn.getObservedAddrs) {
       muxedConn.getObservedAddrs = conn.getObservedAddrs.bind(conn)
       muxedConn.getPeerInfo = conn.getPeerInfo.bind(conn)
-      muxedConn.serPeerInfo = conn.setPeerInfo.bind(conn)
+      muxedConn.setPeerInfo = conn.setPeerInfo.bind(conn)
     }
 
     return muxedConn
@@ -44,8 +44,8 @@ exports = module.exports = function (conn, isListener) {
     proxyMuxer.emit('error', err)
   })
 
-  proxyMuxer.end = () => {
-    muxer.end()
+  proxyMuxer.end = (cb) => {
+    muxer.end(cb)
   }
 
   // needed by other spdy impl that need the response headers
@@ -56,7 +56,7 @@ exports = module.exports = function (conn, isListener) {
     if (conn.getObservedAddrs) {
       muxedConn.getObservedAddrs = conn.getObservedAddrs.bind(conn)
       muxedConn.getPeerInfo = conn.getPeerInfo.bind(conn)
-      muxedConn.serPeerInfo = conn.setPeerInfo.bind(conn)
+      muxedConn.setPeerInfo = conn.setPeerInfo.bind(conn)
     }
     proxyMuxer.emit('stream', muxedConn)
   })
