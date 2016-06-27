@@ -43,6 +43,7 @@
     "libp2p-websockets": "^0.7.0",
     "multiaddr": "^2.0.0",
     "pre-commit": "^1.1.2",
+    "run-parallel": "^1.1.6",
     "stream-pair": "^1.0.3",
     "tape": "^4.2.0"
   },
