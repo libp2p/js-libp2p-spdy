@@ -3,8 +3,10 @@
 
 const expect = require('chai').expect
 const WSlibp2p = require('libp2p-websockets')
-const spdy = require('../src')
 const multiaddr = require('multiaddr')
+const pull = require('pull-stream')
+
+const spdy = require('../src')
 
 describe('browser-server', () => {
   let ws
@@ -16,22 +18,24 @@ describe('browser-server', () => {
   it('ricochet test', (done) => {
     const mh = multiaddr('/ip4/127.0.0.1/tcp/9095/ws')
     const transportSocket = ws.dial(mh)
-    const muxedConn = spdy(transportSocket, false)
+    const muxedConn = spdy.dial(transportSocket)
 
     muxedConn.on('stream', (conn) => {
-      conn.on('data', (data) => {
-        expect(data.toString()).to.equal('hey')
-      })
-
-      conn.on('end', () => {
-        conn.end()
-      })
+      pull(
+        conn,
+        pull.collect((err, chunks) => {
+          console.log('collect', err, chunks)
+          expect(err).to.not.exist
+          expect(chunks).to.be.eql([Buffer('hey')])
+          pull(pull.empty(), conn)
+        })
+      )
     })
 
-    const conn = muxedConn.newStream()
-    conn.write('hey')
-    conn.end()
-    conn.on('data', () => {}) // let it floooow
-    conn.on('end', done)
+    pull(
+      pull.values([Buffer('hey')]),
+      muxedConn.newStream(),
+      pull.onEnd(done)
+    )
   })
 })

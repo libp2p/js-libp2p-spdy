@@ -2,7 +2,7 @@
 'use strict'
 
 const expect = require('chai').expect
-const WSlibp2p = require('libp2p-websockets')
+const Tcp = require('libp2p-tcp')
 const multiaddr = require('multiaddr')
 const path = require('path')
 const fs = require('fs')
@@ -11,36 +11,33 @@ const file = require('pull-file')
 
 const spdy = require('../src')
 
-describe('spdy-over-ws', () => {
-  const mh = multiaddr('/ip4/127.0.0.1/tcp/9091/ws')
-
+describe('spdy-over-tcp', () => {
   let listener
   let dialer
-  let ws
 
-  before((done) => {
-    ws = new WSlibp2p()
+  let tcp
+  let mh = multiaddr('/ip4/127.0.0.1/tcp/9090')
 
-    let i = 0
-    const finish = () => {
-      i++
-      return i === 2 ? done() : null
-    }
+  before(() => {
+    tcp = new Tcp()
+  })
 
-    const wsListener = ws.createListener((socket) => {
+  it('attach to a tcp socket, as listener', (done) => {
+    const tcpListener = tcp.createListener((socket) => {
       expect(socket).to.exist
       listener = spdy.listen(socket)
       expect(listener).to.exist
-      finish()
     })
 
-    const socket = ws.dial(mh)
+    tcpListener.listen(mh, done)
+  })
 
-    wsListener.listen(mh, () => {
-      dialer = spdy.dial(socket)
-      expect(dialer).to.exist
-      finish()
-    })
+  it('attach to a tcp socket, as dialer', (done) => {
+    const socket = tcp.dial(mh)
+    expect(socket).to.exist
+    dialer = spdy.dial(socket)
+    expect(dialer).to.exist
+    done()
   })
 
   it('open a multiplex stream from dialer', (done) => {
