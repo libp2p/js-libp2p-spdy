@@ -30,8 +30,7 @@ module.exports = class Muxer extends EventEmitter {
     // in order to confirm the stream can be open
     spdy.on('stream', (stream) => {
       stream.respond(200, {})
-      const muxedConn = new Connection(toPull.duplex(stream))
-      proxyMethods(conn, muxedConn)
+      const muxedConn = new Connection(toPull.duplex(stream), this.conn)
       this.emit('stream', muxedConn)
     })
   }
@@ -46,21 +45,11 @@ module.exports = class Muxer extends EventEmitter {
       path: '/',
       headers: {}
     }, callback)
-    const muxedConn = new Connection(toPull.duplex(request))
 
-    proxyMethods(this.conn, muxedConn)
-    return muxedConn
+    return new Connection(toPull.duplex(request), this.conn)
   }
 
   end (cb) {
     this.spdy.end(cb)
-  }
-}
-
-function proxyMethods (src, target) {
-  if (src.getObservedAddrs) {
-    target.getObservedAddrs = src.getObservedAddrs.bind(src)
-    target.getPeerInfo = src.getPeerInfo.bind(src)
-    target.setPeerInfo = src.setPeerInfo.bind(src)
   }
 }

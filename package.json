@@ -2,7 +2,7 @@
   "name": "libp2p-spdy",
   "version": "0.8.1",
   "description": "SPDY 3.1 implementation wrapper that is compatible with libp2p Stream Muxer expected interface",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "jsnext:main": "src/index.js",
   "scripts": {
     "compliance": "node test/compliance.js | tap-spec",
@@ -46,6 +46,7 @@
     "pull-pair": "^1.1.0",
     "pull-stream": "^3.4.3",
     "run-parallel": "^1.1.6",
+    "stream-to-pull-stream": "^1.7.0",
     "tape": "^4.2.0"
   },
   "dependencies": {
