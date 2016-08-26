@@ -6,13 +6,17 @@ const toStream = require('pull-stream-to-stream')
 const Muxer = require('./muxer')
 const SPDY_CODEC = require('./spdy-codec')
 
-function create (conn, isListener) {
-  const spdyMuxer = spdy.connection.create(toStream(conn), {
+function create (rawConn, isListener) {
+  const conn = toStream(rawConn)
+  // Let it flow, let it flooow
+  conn.resume()
+
+  const spdyMuxer = spdy.connection.create(conn, {
     protocol: 'spdy',
     isServer: isListener
   })
 
-  return new Muxer(conn, spdyMuxer)
+  return new Muxer(rawConn, spdyMuxer)
 }
 
 exports.multicodec = SPDY_CODEC
