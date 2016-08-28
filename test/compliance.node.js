@@ -4,7 +4,7 @@
 const tests = require('interface-stream-muxer')
 const spdy = require('../src')
 
-describe('compliance', () => {
+describe('interface-stream-muxer compliance', () => {
   tests({
     setup (cb) {
       cb(null, spdy)

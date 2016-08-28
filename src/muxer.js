@@ -29,6 +29,7 @@ module.exports = class Muxer extends EventEmitter {
     // needed by other spdy impl that need the response headers
     // in order to confirm the stream can be open
     spdy.on('stream', (stream) => {
+      // console.log('<-')
       stream.respond(200, {})
       const muxedConn = new Connection(toPull.duplex(stream), this.conn)
       this.emit('stream', muxedConn)
@@ -37,16 +38,18 @@ module.exports = class Muxer extends EventEmitter {
 
   // method added to enable pure stream muxer feeling
   newStream (callback) {
+    // console.log('->')
+
     if (!callback) {
       callback = noop
     }
-    const request = this.spdy.request({
+    const stream = this.spdy.request({
       method: 'POST',
       path: '/',
       headers: {}
     }, callback)
 
-    return new Connection(toPull.duplex(request), this.conn)
+    return new Connection(toPull.duplex(stream), this.conn)
   }
 
   end (cb) {
