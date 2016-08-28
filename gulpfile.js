@@ -3,6 +3,7 @@
 const gulp = require('gulp')
 const WSlibp2p = require('libp2p-websockets')
 const multiaddr = require('multiaddr')
+const pull = require('pull-stream')
 
 const spdy = require('./src')
 
@@ -12,14 +13,15 @@ gulp.task('test:browser:before', (done) => {
   const ws = new WSlibp2p()
   const mh = multiaddr('/ip4/127.0.0.1/tcp/9095/ws')
   listener = ws.createListener((transportSocket) => {
-    const muxedConn = spdy(transportSocket, true)
-
+    const muxedConn = spdy.listen(transportSocket)
+    console.log('listening')
     muxedConn.on('stream', (connRx) => {
+      console.log('onstream')
       const connTx = muxedConn.newStream()
-      connRx.pipe(connTx)
-      connTx.pipe(connRx)
+      pull(connRx, connTx, connRx)
     })
   })
+
   listener.listen(mh, done)
 })
 
