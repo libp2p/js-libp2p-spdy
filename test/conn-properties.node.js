@@ -4,9 +4,11 @@
 const expect = require('chai').expect
 const TCP = require('libp2p-tcp')
 const Connection = require('interface-connection').Connection
-const spdy = require('../src')
 const multiaddr = require('multiaddr')
+const pull = require('pull-stream')
 const parallel = require('run-parallel')
+
+const spdy = require('../src')
 
 describe('conn properties are propagated to each stream', () => {
   let lMuxer
@@ -14,45 +16,26 @@ describe('conn properties are propagated to each stream', () => {
   let dConn
   let listener
 
-  before((done) => {
+  before(() => {
     const dtcp = new TCP()
     const ltcp = new TCP()
     const ma = multiaddr('/ip4/127.0.0.1/tcp/9876')
     listener = ltcp.createListener((conn) => {
-      conn.on('error', () => {})
-      lMuxer = spdy(conn, true)
-
-      lMuxer.on('error', () => {})
-
+      lMuxer = spdy.listen(conn)
       lMuxer.on('stream', (conn) => {
-        conn.pipe(conn)
+        pull(conn, conn)
       })
     })
 
-    listener.on('error', () => {})
-
-    listener.listen(ma, dial)
-
-    function dial () {
-      dConn = dtcp.dial(ma)
-      dConn.on('error', () => {})
-
-      dConn.on('connect', () => {
-        dMuxer = spdy(dConn, false)
-        dMuxer.on('error', () => {})
-        done()
-      })
-    }
+    listener.listen(ma)
+    dConn = dtcp.dial(ma)
+    dMuxer = spdy.dial(dConn)
   })
 
   after((done) => {
-    parallel([
-      (cb) => {
-        dConn.destroy()
-        dConn.on('close', cb)
-      },
-      listener.close
-    ], done)
+    // TODO: fix listener close hanging
+    // listener.close(done)
+    done()
   })
 
   it('getObservedAddrs', (done) => {
@@ -65,9 +48,7 @@ describe('conn properties are propagated to each stream', () => {
         conn.getObservedAddrs((err, addrs) => {
           expect(err).to.not.exist
           oa1 = addrs
-          conn.resume()
-          conn.on('end', cb)
-          conn.end()
+          pull(pull.empty(), conn, pull.onEnd(cb))
         })
       },
       (cb) => {
@@ -87,9 +68,7 @@ describe('conn properties are propagated to each stream', () => {
     const conn = dMuxer.newStream()
     conn.getPeerInfo((err, pInfo) => {
       expect(err).to.exist
-      conn.resume()
-      conn.on('end', done)
-      conn.end()
+      pull(pull.empty(), conn, pull.onEnd(done))
     })
   })
 
@@ -101,9 +80,7 @@ describe('conn properties are propagated to each stream', () => {
         conn.getPeerInfo((err, pInfo) => {
           expect(err).to.not.exist
           expect(pInfo).to.equal('banana')
-          conn.resume()
-          conn.on('end', cb)
-          conn.end()
+          pull(pull.empty(), conn, pull.onEnd(cb))
         })
       },
       (cb) => {
@@ -122,9 +99,7 @@ describe('conn properties are propagated to each stream', () => {
     proxyConn.getPeerInfo((err, pInfo) => {
       expect(err).to.not.exist
       expect(pInfo).to.equal('banana')
-      conn.resume()
-      conn.on('end', done)
-      conn.end()
+      pull(pull.empty(), conn, pull.onEnd(done))
     })
   })
 
@@ -139,36 +114,28 @@ describe('conn properties are propagated to each stream', () => {
         conn1.getPeerInfo((err, pInfo) => {
           expect(err).to.not.exist
           expect(pInfo).to.equal('banana')
-          conn1.resume()
-          conn1.on('end', cb)
-          conn1.end()
+          pull(pull.empty(), conn1, pull.onEnd(cb))
         })
       },
       (cb) => {
         conn2.getPeerInfo((err, pInfo) => {
           expect(err).to.not.exist
           expect(pInfo).to.equal('banana')
-          conn2.resume()
-          conn2.on('end', cb)
-          conn2.end()
+          pull(pull.empty(), conn2, pull.onEnd(cb))
         })
       },
       (cb) => {
         conn3.getPeerInfo((err, pInfo) => {
           expect(err).to.not.exist
           expect(pInfo).to.equal('banana')
-          conn3.resume()
-          conn3.on('end', cb)
-          conn3.end()
+          pull(pull.empty(), conn3, pull.onEnd(cb))
         })
       },
       (cb) => {
         conn4.getPeerInfo((err, pInfo) => {
           expect(err).to.not.exist
           expect(pInfo).to.equal('banana')
-          conn4.resume()
-          conn4.on('end', cb)
-          conn4.end()
+          pull(pull.empty(), conn4, pull.onEnd(cb))
         })
       }
     ], done)
@@ -182,9 +149,7 @@ describe('conn properties are propagated to each stream', () => {
         conn.getPeerInfo((err, pInfo) => {
           expect(err).to.not.exist
           expect(pInfo).to.equal('pineapple')
-          conn.resume()
-          conn.on('end', cb)
-          conn.end()
+          pull(pull.empty(), conn, pull.onEnd(cb))
         })
       },
       (cb) => {
