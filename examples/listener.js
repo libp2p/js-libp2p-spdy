@@ -1,30 +1,36 @@
 'use strict'
 
 const tcp = require('net')
+const pull = require('pull-stream')
+const toPull = require('stream-to-pull-stream')
 const libp2pSPDY = require('../src')
 
 const listener = tcp.createServer((socket) => {
   console.log('-> got connection')
 
-  const muxer = libp2pSPDY(socket, true)
+  const muxer = libp2pSPDY.listen(toPull(socket))
 
   muxer.on('stream', (stream) => {
     console.log('-> got new muxed stream')
-    stream.on('data', (data) => {
-      console.log('DO I GET DATA?', data)
-    })
-    stream.pipe(stream)
+    pull(
+      stream,
+      pull.through((data) => {
+        console.log('DO I GET DATA?', data)
+      }),
+      stream
+    )
   })
 
   console.log('-> opening a stream from my side')
-  muxer.newStream((err, stream) => {
-    if (err) {
-      throw err
-    }
+  const stream = muxer.newStream((err) => {
+    if (err) throw err
     console.log('-> opened the stream')
-    stream.write('hey, how is it going')
-    stream.end()
   })
+
+  pull(
+    pull.values(['hey, how is it going']),
+    stream
+  )
 })
 
 listener.listen(9999, () => {
