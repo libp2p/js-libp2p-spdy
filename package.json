@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "browserify-zlib": "github:ipfs/browserify-zlib",
-    "interface-connection": "^0.1.8",
+    "interface-connection": "^0.2.1",
     "spdy-transport": "^2.0.11"
   },
   "contributors": [
