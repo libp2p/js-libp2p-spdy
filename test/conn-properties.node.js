@@ -21,7 +21,7 @@ describe('conn properties are propagated to each stream', () => {
     const ltcp = new TCP()
     const ma = multiaddr('/ip4/127.0.0.1/tcp/9876')
     listener = ltcp.createListener((conn) => {
-      lMuxer = spdy.listen(conn)
+      lMuxer = spdy.listener(conn)
       lMuxer.on('stream', (conn) => {
         pull(conn, conn)
       })
@@ -29,7 +29,7 @@ describe('conn properties are propagated to each stream', () => {
 
     listener.listen(ma)
     dConn = dtcp.dial(ma)
-    dMuxer = spdy.dial(dConn)
+    dMuxer = spdy.dialer(dConn)
   })
 
   after((done) => {

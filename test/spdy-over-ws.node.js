@@ -29,7 +29,7 @@ describe('spdy-over-ws', () => {
 
     const wsListener = ws.createListener((socket) => {
       expect(socket).to.exist
-      listener = spdy.listen(socket)
+      listener = spdy.listener(socket)
       expect(listener).to.exist
       finish()
     })
@@ -37,7 +37,7 @@ describe('spdy-over-ws', () => {
     const socket = ws.dial(mh)
 
     wsListener.listen(mh, () => {
-      dialer = spdy.dial(socket)
+      dialer = spdy.dialer(socket)
       expect(dialer).to.exist
       finish()
     })

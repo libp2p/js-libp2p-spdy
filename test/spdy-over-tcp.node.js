@@ -25,7 +25,7 @@ describe('spdy-over-tcp', () => {
   it('attach to a tcp socket, as listener', (done) => {
     const tcpListener = tcp.createListener((socket) => {
       expect(socket).to.exist
-      listener = spdy.listen(socket)
+      listener = spdy.listener(socket)
       expect(listener).to.exist
     })
 
@@ -35,7 +35,7 @@ describe('spdy-over-tcp', () => {
   it('attach to a tcp socket, as dialer', (done) => {
     const socket = tcp.dial(mh)
     expect(socket).to.exist
-    dialer = spdy.dial(socket)
+    dialer = spdy.dialer(socket)
     expect(dialer).to.exist
     done()
   })

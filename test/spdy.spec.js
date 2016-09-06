@@ -21,12 +21,12 @@ describe('spdy-generic', () => {
   })
 
   it('attach to a duplex stream, as listener', () => {
-    listener = spdy.listen(listenerSocket)
+    listener = spdy.listener(listenerSocket)
     expect(listener).to.exist
   })
 
   it('attach to a duplex stream, as dialer', () => {
-    dialer = spdy.dial(dialerSocket)
+    dialer = spdy.dialer(dialerSocket)
     expect(dialer).to.exist
   })
 
