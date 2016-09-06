@@ -18,7 +18,7 @@ describe('browser-server', () => {
   it('ricochet test', (done) => {
     const mh = multiaddr('/ip4/127.0.0.1/tcp/9095/ws')
     const transportSocket = ws.dial(mh)
-    const muxedConn = spdy.dial(transportSocket)
+    const muxedConn = spdy.dialer(transportSocket)
 
     muxedConn.on('stream', (conn) => {
       pull(

@@ -8,7 +8,7 @@ const libp2pSPDY = require('../src')
 const listener = tcp.createServer((socket) => {
   console.log('-> got connection')
 
-  const muxer = libp2pSPDY.listen(toPull(socket))
+  const muxer = libp2pSPDY.listener(toPull(socket))
 
   muxer.on('stream', (stream) => {
     console.log('-> got new muxed stream')

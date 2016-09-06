@@ -6,7 +6,7 @@ const toPull = require('stream-to-pull-stream')
 const libp2pSPDY = require('../src')
 
 const socket = tcp.connect(9999)
-const muxer = libp2pSPDY.dial(toPull(socket))
+const muxer = libp2pSPDY.dialer(toPull(socket))
 
 muxer.on('stream', (stream) => {
   console.log('-> got new muxed stream')
