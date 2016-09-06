@@ -26,6 +26,7 @@ function create (rawConn, isListener) {
   return new Muxer(rawConn, spdyMuxer)
 }
 
+exports = module.exports = create
 exports.multicodec = SPDY_CODEC
-exports.dial = (conn) => create(conn, false)
-exports.listen = (conn) => create(conn, true)
+exports.dialer = (conn) => create(conn, false)
+exports.listener = (conn) => create(conn, true)
