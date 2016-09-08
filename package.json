@@ -41,7 +41,7 @@
     "libp2p-websockets": "^0.8.0",
     "multiaddr": "^2.0.0",
     "pre-commit": "^1.1.2",
-    "pull-file": "^0.5.0",
+    "pull-file": "^1.0.0",
     "pull-pair": "^1.1.0",
     "pull-stream": "^3.4.3",
     "run-parallel": "^1.1.6",
