@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/libp2p/js-libp2p-spdy",
   "devDependencies": {
-    "aegir": "^6.0.1",
+    "aegir": "^8.0.1",
     "chai": "^3.5.0",
     "interface-stream-muxer": "^0.4.0",
     "libp2p-tcp": "^0.8.0",
