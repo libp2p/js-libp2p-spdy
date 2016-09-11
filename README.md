@@ -40,9 +40,9 @@ var spdy = require('libp2p-spdy')
 Loading this module through a script tag will make the `Lip2pSpdy` obj available in the global namespace.
 
 ```html
-<script src="https://npmcdn.com/libp2p-spdy/dist/index.min.js"></script>
+<script src="https://unpkg.com/libp2p-spdy/dist/index.min.js"></script>
 <!-- OR -->
-<script src="https://npmcdn.com/libp2p-spdy/dist/index.js"></script>
+<script src="https://unpkg.com/libp2p-spdy/dist/index.js"></script>
 ```
 
 # Usage
