@@ -11,16 +11,16 @@ const listener = tcp.createServer((socket) => {
   const muxer = libp2pSPDY.listener(toPull(socket))
 
   muxer.on('stream', (stream) => {
-    console.log('-> got new muxed stream')
+    console.log('INCOMMING MUXED STREAM')
     pull(
       stream,
-      pull.through((data) => {
+      pull.drain((data) => {
         console.log('DO I GET DATA?', data)
-      }),
-      stream
+      })
     )
   })
 
+  /*
   console.log('-> opening a stream from my side')
   const stream = muxer.newStream((err) => {
     if (err) throw err
@@ -31,6 +31,7 @@ const listener = tcp.createServer((socket) => {
     pull.values(['hey, how is it going']),
     stream
   )
+  */
 })
 
 listener.listen(9999, () => {

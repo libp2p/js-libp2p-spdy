@@ -48,7 +48,6 @@ module.exports = class Muxer extends EventEmitter {
       headers: {}
     }, (err, stream) => {
       conn.setInnerConn(toPull.duplex(stream), this.conn)
-
       callback(err, conn)
     })
 
