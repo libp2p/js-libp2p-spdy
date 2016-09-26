@@ -33,6 +33,9 @@
     "url": "https://github.com/libp2p/js-libp2p-spdy/issues"
   },
   "homepage": "https://github.com/libp2p/js-libp2p-spdy",
+  "browser": {
+    "zlib": "browserify-zlib"
+  },
   "devDependencies": {
     "aegir": "^6.0.1",
     "chai": "^3.5.0",
