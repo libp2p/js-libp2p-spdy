@@ -2,8 +2,7 @@
   "name": "libp2p-spdy",
   "version": "0.9.0",
   "description": "SPDY 3.1 implementation wrapper that is compatible with libp2p Stream Muxer expected interface",
-  "main": "lib/index.js",
-  "jsnext:main": "src/index.js",
+  "main": "src/index.js",
   "scripts": {
     "lint": "gulp lint",
     "build": "gulp build",
@@ -36,9 +35,13 @@
   "browser": {
     "zlib": "browserify-zlib"
   },
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "devDependencies": {
     "aegir": "^8.0.1",
     "chai": "^3.5.0",
+    "gulp": "^3.9.1",
     "interface-stream-muxer": "^0.4.0",
     "libp2p-tcp": "^0.8.0",
     "libp2p-websockets": "^0.8.0",
