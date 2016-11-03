@@ -41,7 +41,7 @@
     "chai": "^3.5.0",
     "interface-stream-muxer": "^0.4.0",
     "libp2p-tcp": "^0.8.0",
-    "libp2p-websockets": "^0.8.0",
+    "libp2p-websockets": "^0.9.0",
     "multiaddr": "^2.0.0",
     "pre-commit": "^1.1.2",
     "pull-file": "^1.0.0",
