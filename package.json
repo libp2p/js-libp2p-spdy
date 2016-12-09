@@ -39,7 +39,7 @@
     "node": ">=4.0.0"
   },
   "devDependencies": {
-    "aegir": "^9.0.1",
+    "aegir": "^9.2.1",
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "interface-stream-muxer": "^0.5.0",
