@@ -47,14 +47,18 @@ module.exports = class Muxer extends EventEmitter {
       path: '/',
       headers: {}
     }, (err, stream) => {
+      if (err) {
+        return callback(err)
+      }
       conn.setInnerConn(toPull.duplex(stream), this.conn)
-      callback(err, conn)
+      callback(null, conn)
     })
 
     return conn
   }
 
   end (cb) {
+    this.spdy.destroyStreams()
     this.spdy.end(cb)
   }
 }
