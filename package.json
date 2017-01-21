@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/libp2p/js-libp2p-spdy",
   "browser": {
-    "zlib": "browserify-zlib"
+    "zlib": "browserify-zlib-next"
   },
   "engines": {
     "node": ">=4.0.0"
