@@ -20,7 +20,8 @@ function create (rawConn, isListener) {
 
   const spdyMuxer = spdy.connection.create(conn, {
     protocol: 'spdy',
-    isServer: isListener
+    isServer: isListener,
+    maxChunk: false
   })
 
   return new Muxer(rawConn, spdyMuxer)
