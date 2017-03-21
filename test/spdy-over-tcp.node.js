@@ -1,7 +1,10 @@
 /* eslint-env mocha */
 'use strict'
 
-const expect = require('chai').expect
+const chai = require('chai')
+const dirtyChai = require('dirty-chai')
+const expect = chai.expect
+chai.use(dirtyChai)
 const Tcp = require('libp2p-tcp')
 const multiaddr = require('multiaddr')
 const path = require('path')
@@ -24,9 +27,9 @@ describe('spdy-over-tcp', () => {
 
   it('attach to a tcp socket, as listener', (done) => {
     const tcpListener = tcp.createListener((socket) => {
-      expect(socket).to.exist
+      expect(socket).to.exist()
       listener = spdy.listener(socket)
-      expect(listener).to.exist
+      expect(listener).to.exist()
     })
 
     tcpListener.listen(mh, done)
@@ -34,9 +37,9 @@ describe('spdy-over-tcp', () => {
 
   it('attach to a tcp socket, as dialer', (done) => {
     const socket = tcp.dial(mh)
-    expect(socket).to.exist
+    expect(socket).to.exist()
     dialer = spdy.dialer(socket)
-    expect(dialer).to.exist
+    expect(dialer).to.exist()
     done()
   })
 
@@ -73,7 +76,7 @@ describe('spdy-over-tcp', () => {
       pull.values(['hello world']),
       dialer.newStream(),
       pull.collect((err, data) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
         expect(data[0].toString()).to.equal('hello world')
         done()
       })
@@ -89,7 +92,7 @@ describe('spdy-over-tcp', () => {
       pull.values(['hello world']),
       listener.newStream(),
       pull.collect((err, data) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
         expect(data[0].toString()).to.equal('hello world')
         done()
       })
@@ -106,7 +109,7 @@ describe('spdy-over-tcp', () => {
       file(filePath),
       listener.newStream(),
       pull.collect((err, data) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
         const expected = fs.readFileSync(filePath)
         expect(Buffer.concat(data)).to.deep.equal(expected)
         done()

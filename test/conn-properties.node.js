@@ -1,7 +1,10 @@
 'use strict'
 /* eslint-env mocha */
 
-const expect = require('chai').expect
+const chai = require('chai')
+const dirtyChai = require('dirty-chai')
+const expect = chai.expect
+chai.use(dirtyChai)
 const TCP = require('libp2p-tcp')
 const Connection = require('interface-connection').Connection
 const multiaddr = require('multiaddr')
@@ -46,14 +49,14 @@ describe('conn properties are propagated to each stream', () => {
       (cb) => {
         const conn = dMuxer.newStream()
         conn.getObservedAddrs((err, addrs) => {
-          expect(err).to.not.exist
+          expect(err).to.not.exist()
           oa1 = addrs
           pull(pull.empty(), conn, pull.onEnd(cb))
         })
       },
       (cb) => {
         dConn.getObservedAddrs((err, addrs) => {
-          expect(err).to.not.exist
+          expect(err).to.not.exist()
           oa2 = addrs
           cb()
         })
@@ -67,7 +70,7 @@ describe('conn properties are propagated to each stream', () => {
   it('getPeerInfo yields error', (done) => {
     const conn = dMuxer.newStream()
     conn.getPeerInfo((err, pInfo) => {
-      expect(err).to.exist
+      expect(err).to.exist()
       pull(pull.empty(), conn, pull.onEnd(done))
     })
   })
@@ -78,14 +81,14 @@ describe('conn properties are propagated to each stream', () => {
     parallel([
       (cb) => {
         conn.getPeerInfo((err, pInfo) => {
-          expect(err).to.not.exist
+          expect(err).to.not.exist()
           expect(pInfo).to.equal('banana')
           pull(pull.empty(), conn, pull.onEnd(cb))
         })
       },
       (cb) => {
         dConn.getPeerInfo((err, pInfo) => {
-          expect(err).to.not.exist
+          expect(err).to.not.exist()
           expect(pInfo).to.equal('banana')
           cb()
         })
@@ -97,7 +100,7 @@ describe('conn properties are propagated to each stream', () => {
     const conn = dMuxer.newStream()
     const proxyConn = new Connection(conn)
     proxyConn.getPeerInfo((err, pInfo) => {
-      expect(err).to.not.exist
+      expect(err).to.not.exist()
       expect(pInfo).to.equal('banana')
       pull(pull.empty(), conn, pull.onEnd(done))
     })
@@ -112,28 +115,28 @@ describe('conn properties are propagated to each stream', () => {
     parallel([
       (cb) => {
         conn1.getPeerInfo((err, pInfo) => {
-          expect(err).to.not.exist
+          expect(err).to.not.exist()
           expect(pInfo).to.equal('banana')
           pull(pull.empty(), conn1, pull.onEnd(cb))
         })
       },
       (cb) => {
         conn2.getPeerInfo((err, pInfo) => {
-          expect(err).to.not.exist
+          expect(err).to.not.exist()
           expect(pInfo).to.equal('banana')
           pull(pull.empty(), conn2, pull.onEnd(cb))
         })
       },
       (cb) => {
         conn3.getPeerInfo((err, pInfo) => {
-          expect(err).to.not.exist
+          expect(err).to.not.exist()
           expect(pInfo).to.equal('banana')
           pull(pull.empty(), conn3, pull.onEnd(cb))
         })
       },
       (cb) => {
         conn4.getPeerInfo((err, pInfo) => {
-          expect(err).to.not.exist
+          expect(err).to.not.exist()
           expect(pInfo).to.equal('banana')
           pull(pull.empty(), conn4, pull.onEnd(cb))
         })
@@ -147,14 +150,14 @@ describe('conn properties are propagated to each stream', () => {
     parallel([
       (cb) => {
         conn.getPeerInfo((err, pInfo) => {
-          expect(err).to.not.exist
+          expect(err).to.not.exist()
           expect(pInfo).to.equal('pineapple')
           pull(pull.empty(), conn, pull.onEnd(cb))
         })
       },
       (cb) => {
         dConn.getPeerInfo((err, pInfo) => {
-          expect(err).to.not.exist
+          expect(err).to.not.exist()
           expect(pInfo).to.equal('pineapple')
           cb()
         })
