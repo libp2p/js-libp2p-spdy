@@ -1,7 +1,10 @@
 /* eslint-env mocha */
 'use strict'
 
-const expect = require('chai').expect
+const chai = require('chai')
+const dirtyChai = require('dirty-chai')
+const expect = chai.expect
+chai.use(dirtyChai)
 const WSlibp2p = require('libp2p-websockets')
 const multiaddr = require('multiaddr')
 const path = require('path')
@@ -28,9 +31,9 @@ describe('spdy-over-ws', () => {
     }
 
     const wsListener = ws.createListener((socket) => {
-      expect(socket).to.exist
+      expect(socket).to.exist()
       listener = spdy.listener(socket)
-      expect(listener).to.exist
+      expect(listener).to.exist()
       finish()
     })
 
@@ -38,7 +41,7 @@ describe('spdy-over-ws', () => {
 
     wsListener.listen(mh, () => {
       dialer = spdy.dialer(socket)
-      expect(dialer).to.exist
+      expect(dialer).to.exist()
       finish()
     })
   })
@@ -76,7 +79,7 @@ describe('spdy-over-ws', () => {
       pull.values(['hello world']),
       dialer.newStream(),
       pull.collect((err, data) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
         expect(data[0].toString()).to.equal('hello world')
         done()
       })
@@ -92,7 +95,7 @@ describe('spdy-over-ws', () => {
       pull.values(['hello world']),
       listener.newStream(),
       pull.collect((err, data) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
         expect(data[0].toString()).to.equal('hello world')
         done()
       })
@@ -109,7 +112,7 @@ describe('spdy-over-ws', () => {
       file(filePath),
       listener.newStream(),
       pull.collect((err, data) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
         const expected = fs.readFileSync(filePath)
         expect(Buffer.concat(data)).to.deep.equal(expected)
         done()

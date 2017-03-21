@@ -1,7 +1,10 @@
 /* eslint-env mocha */
 'use strict'
 
-const expect = require('chai').expect
+const chai = require('chai')
+const dirtyChai = require('dirty-chai')
+const expect = chai.expect
+chai.use(dirtyChai)
 const pair = require('pull-pair/duplex')
 const pull = require('pull-stream')
 
@@ -22,12 +25,12 @@ describe('spdy-generic', () => {
 
   it('attach to a duplex stream, as listener', () => {
     listener = spdy.listener(listenerSocket)
-    expect(listener).to.exist
+    expect(listener).to.exist()
   })
 
   it('attach to a duplex stream, as dialer', () => {
     dialer = spdy.dialer(dialerSocket)
-    expect(dialer).to.exist
+    expect(dialer).to.exist()
   })
 
   it('open a multiplex stream from client', (done) => {
@@ -40,7 +43,7 @@ describe('spdy-generic', () => {
       pull.values(['hello']),
       conn,
       pull.collect((err, res) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
         expect(res).to.be.eql([Buffer('hello')])
         done()
       })
@@ -57,7 +60,7 @@ describe('spdy-generic', () => {
       pull.values(['hello']),
       conn,
       pull.collect((err, res) => {
-        expect(err).to.not.exist
+        expect(err).to.not.exist()
         expect(res).to.be.eql([Buffer('hello')])
         done()
       })
