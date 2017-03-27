@@ -45,7 +45,7 @@
     "gulp": "^3.9.1",
     "interface-stream-muxer": "~0.5.7",
     "libp2p-tcp": "~0.9.4",
-    "libp2p-websockets": "~0.9.4",
+    "libp2p-websockets": "~0.10.0",
     "multiaddr": "^2.2.2",
     "pre-commit": "^1.2.2",
     "pull-file": "^1.0.0",
