@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "aegir": "^11.0.2",
-    "chai": "^3.5.0",
+    "chai": "^4.0.1",
     "dirty-chai": "^1.2.2",
     "gulp": "^3.9.1",
     "interface-stream-muxer": "~0.5.7",
