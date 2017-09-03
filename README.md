@@ -9,9 +9,7 @@ js-libp2p-spdy
 [![Circle CI](https://circleci.com/gh/libp2p/js-libp2p-spdy.svg?style=svg)](https://circleci.com/gh/libp2p/js-libp2p-spdy)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard)
 ![](https://img.shields.io/badge/npm-%3E%3D3.0.0-orange.svg?style=flat-square)
-![](https://img.shields.io/badge/Node.js-%3E%3D4.0.0-orange.svg?style=flat-square)
-
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/libp2p-js-spdy.svg)](https://saucelabs.com/u/libp2p-js-spdy)
+![](https://img.shields.io/badge/Node.js-%3E%3D6.0.0-orange.svg?style=flat-square)
 
 > SPDY 3.1 implementation wrapper that is compatible with libp2p Stream Muxer expected interface
 
