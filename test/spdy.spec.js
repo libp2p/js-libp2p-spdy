@@ -44,7 +44,7 @@ describe('spdy-generic', () => {
       conn,
       pull.collect((err, res) => {
         expect(err).to.not.exist()
-        expect(res).to.be.eql([Buffer('hello')])
+        expect(res).to.eql([Buffer.from('hello')])
         done()
       })
     )
@@ -61,7 +61,7 @@ describe('spdy-generic', () => {
       conn,
       pull.collect((err, res) => {
         expect(err).to.not.exist()
-        expect(res).to.be.eql([Buffer('hello')])
+        expect(res).to.eql([Buffer.from('hello')])
         done()
       })
     )
