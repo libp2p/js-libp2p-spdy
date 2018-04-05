@@ -40,27 +40,27 @@
     "npm": ">=3.0.0"
   },
   "devDependencies": {
-    "aegir": "^11.0.2",
+    "aegir": "^13.0.6",
     "chai": "^4.1.2",
     "dirty-chai": "^2.0.1",
     "gulp": "^3.9.1",
-    "interface-stream-muxer": "~0.5.7",
-    "libp2p-tcp": "~0.11.0",
-    "libp2p-websockets": "~0.10.1",
-    "multiaddr": "^3.0.0",
+    "interface-stream-muxer": "~0.5.9",
+    "libp2p-tcp": "~0.12.0",
+    "libp2p-websockets": "~0.11.0",
+    "multiaddr": "^4.0.0",
     "pre-commit": "^1.2.2",
-    "pull-file": "^1.0.0",
+    "pull-file": "^1.1.0",
     "pull-pair": "^1.1.0",
-    "pull-stream": "^3.6.0",
-    "run-parallel": "^1.1.6",
+    "pull-stream": "^3.6.7",
+    "run-parallel": "^1.1.8",
     "tap-spec": "^4.1.1",
-    "tape": "^4.8.0"
+    "tape": "^4.9.0"
   },
   "dependencies": {
     "interface-connection": "~0.3.2",
     "lodash.noop": "^3.0.1",
     "pull-stream-to-stream": "^1.3.4",
-    "spdy-transport": "^2.0.20",
+    "spdy-transport": "^2.1.0",
     "stream-to-pull-stream": "^1.7.2"
   },
   "contributors": [
