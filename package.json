@@ -32,9 +32,6 @@
     "url": "https://github.com/libp2p/js-libp2p-spdy/issues"
   },
   "homepage": "https://github.com/libp2p/js-libp2p-spdy",
-  "browser": {
-    "zlib": "browserify-zlib-next"
-  },
   "engines": {
     "node": ">=6.0.0",
     "npm": ">=3.0.0"
