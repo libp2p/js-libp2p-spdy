@@ -1,6 +1,5 @@
 'use strict'
 
-const gulp = require('gulp')
 const WSlibp2p = require('libp2p-websockets')
 const multiaddr = require('multiaddr')
 const pull = require('pull-stream')
@@ -9,7 +8,7 @@ const spdy = require('./src')
 
 let listener
 
-gulp.task('test:browser:before', (done) => {
+function pre (done) {
   const ws = new WSlibp2p()
   const mh = multiaddr('/ip4/127.0.0.1/tcp/9095/ws')
   listener = ws.createListener((transportSocket) => {
@@ -21,10 +20,25 @@ gulp.task('test:browser:before', (done) => {
   })
 
   listener.listen(mh, done)
-})
+}
 
-gulp.task('test:browser:after', (done) => {
+function post (done) {
   listener.close(done)
-})
+}
 
-require('aegir/gulp')(gulp)
+module.exports = {
+  karma: {
+    files: [{
+      pattern: 'node_modules/interface-ipfs-core/js/test/fixtures/**/*',
+      watched: false,
+      served: true,
+      included: false
+    }],
+    browserNoActivityTimeout: 150 * 1000,
+    singleRun: true
+  },
+  hooks: {
+    pre: pre,
+    post: post
+  }
+}
