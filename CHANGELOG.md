@@ -1,3 +1,13 @@
+<a name="0.12.1"></a>
+## [0.12.1](https://github.com/libp2p/js-libp2p-spdy/compare/v0.12.0...v0.12.1) (2018-04-05)
+
+
+### Bug Fixes
+
+* no more zlib shim ([49a2718](https://github.com/libp2p/js-libp2p-spdy/commit/49a2718))
+
+
+
 <a name="0.12.0"></a>
 # [0.12.0](https://github.com/libp2p/js-libp2p-spdy/compare/v0.11.0...v0.12.0) (2018-04-05)
 
