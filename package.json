@@ -2,6 +2,7 @@
   "name": "libp2p-spdy",
   "version": "0.12.1",
   "description": "SPDY 3.1 implementation wrapper that is compatible with libp2p Stream Muxer expected interface",
+  "leadMaintainer": "Jacob Heun <jacobheun@gmail.com>",
   "main": "src/index.js",
   "scripts": {
     "lint": "aegir lint",
@@ -15,7 +16,7 @@
     "coverage": "aegir coverage",
     "coverage-publish": "aegir-coverage publish"
   },
-  "pre-commit": [
+  "pre-push": [
     "lint",
     "test"
   ],
@@ -26,7 +27,6 @@
   "keywords": [
     "IPFS"
   ],
-  "author": "David Dias <daviddias@ipfs.io>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/libp2p/js-libp2p-spdy/issues"
@@ -45,7 +45,6 @@
     "libp2p-tcp": "~0.12.0",
     "libp2p-websockets": "~0.11.0",
     "multiaddr": "^4.0.0",
-    "pre-commit": "^1.2.2",
     "pull-file": "^1.1.0",
     "pull-pair": "^1.1.0",
     "pull-stream": "^3.6.7",

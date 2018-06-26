@@ -15,21 +15,25 @@ js-libp2p-spdy
 
 [![](https://github.com/libp2p/interface-stream-muxer/raw/master/img/badge.png)](https://github.com/libp2p/interface-stream-muxer)
 
-# Installation
+## Lead Maintainer
 
-## npm
+[Jacob Heun](https://github/jacobheun)
+
+## Installation
+
+### npm
 
 ```sh
 > npm i libp2p-spdy
 ```
 
-## Use in Node.js
+### Use in Node.js
 
 ```js
 const spdy = require('libp2p-spdy')
 ```
 
-## Use in a browser with browserify, webpack or any other bundler
+### Use in a browser with browserify, webpack or any other bundler
 
 The code published to npm that gets loaded on require is in fact a ES5 transpiled version with the right shims added. This means that you can require it and use with your favourite bundler without having to adjust asset management process.
 
@@ -37,7 +41,7 @@ The code published to npm that gets loaded on require is in fact a ES5 transpile
 var spdy = require('libp2p-spdy')
 ```
 
-## Use in a browser Using a script tag
+### Use in a browser Using a script tag
 
 Loading this module through a script tag will make the `Lip2pSpdy` obj available in the global namespace.
 
@@ -47,9 +51,9 @@ Loading this module through a script tag will make the `Lip2pSpdy` obj available
 <script src="https://unpkg.com/libp2p-spdy/dist/index.js"></script>
 ```
 
-# Usage
+## Usage
 
-## API
+### API
 
 #### Attaching it to a socket (duplex stream)
 
