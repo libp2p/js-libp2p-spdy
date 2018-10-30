@@ -1,9 +1,26 @@
 'use strict'
 
 const EventEmitter = require('events').EventEmitter
-const noop = require('lodash.noop')
 const Connection = require('interface-connection').Connection
 const toPull = require('stream-to-pull-stream')
+const pullCatch = require('pull-catch')
+const pull = require('pull-stream')
+const noop = () => {}
+
+function catchError (stream) {
+  return {
+    source: pull(
+      stream.source,
+      pullCatch((err) => {
+        if (err.code === 'ECONNRESET' || err.code === 'EPIPE') {
+          return
+        }
+        return false
+      })
+    ),
+    sink: stream.sink
+  }
+}
 
 const SPDY_CODEC = require('./spdy-codec')
 
@@ -18,19 +35,35 @@ module.exports = class Muxer extends EventEmitter {
     spdy.start(3.1)
 
     // The rest of the API comes by default with SPDY
-    spdy.on('close', () => {
-      this.emit('close')
+    spdy.on('close', (didError) => {
+      // If we get a fatal ok error, just close
+      if (didError && /ok/i.test(didError.message)) {
+        didError = false
+      }
+      spdy.destroyStreams(new Error('underlying socket has been closed'))
+      this.emit('close', didError)
     })
 
     spdy.on('error', (err) => {
-      this.emit('error', err)
+      if (!err) {
+        return noop()
+      }
+      // If the connection was severed, ensure the streams
+      // are destroyed
+      if (err.code === 'ECONNRESET' || err.code === 'EPIPE') {
+        spdy.destroyStreams()
+      } else {
+        this.emit('error', err)
+      }
     })
 
     // needed by other spdy impl that need the response headers
     // in order to confirm the stream can be open
     spdy.on('stream', (stream) => {
-      stream.respond(200, {})
-      const muxedConn = new Connection(toPull.duplex(stream), this.conn)
+      const muxedConn = new Connection(
+        catchError(toPull.duplex(stream)),
+        this.conn
+      )
       this.emit('stream', muxedConn)
     })
   }
@@ -40,25 +73,33 @@ module.exports = class Muxer extends EventEmitter {
     if (!callback) {
       callback = noop
     }
-    const conn = new Connection(null, this.conn)
 
-    this.spdy.request({
+    const stream = this.spdy.request({
       method: 'POST',
       path: '/',
       headers: {}
-    }, (err, stream) => {
+    }, (err) => {
       if (err) {
         return callback(err)
       }
-      conn.setInnerConn(toPull.duplex(stream), this.conn)
       callback(null, conn)
     })
+
+    const conn = new Connection(
+      catchError(toPull.duplex(stream)),
+      this.conn
+    )
 
     return conn
   }
 
   end (cb) {
-    this.spdy.destroyStreams()
-    this.spdy.end(cb)
+    cb = cb || noop
+    this.spdy.end((err) => {
+      if (err && /ok/i.test(err.message)) {
+        return cb()
+      }
+      cb(err)
+    })
   }
 }
