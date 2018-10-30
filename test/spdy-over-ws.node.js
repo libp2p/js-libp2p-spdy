@@ -2,9 +2,10 @@
 'use strict'
 
 const chai = require('chai')
-const dirtyChai = require('dirty-chai')
+chai.use(require('dirty-chai'))
+chai.use(require('chai-checkmark'))
 const expect = chai.expect
-chai.use(dirtyChai)
+const sinon = require('sinon')
 const WSlibp2p = require('libp2p-websockets')
 const multiaddr = require('multiaddr')
 const path = require('path')
@@ -17,6 +18,7 @@ const spdy = require('../src')
 describe('spdy-over-ws', () => {
   const mh = multiaddr('/ip4/127.0.0.1/tcp/9091/ws')
 
+  let wsListener
   let listener
   let dialer
   let ws
@@ -24,26 +26,27 @@ describe('spdy-over-ws', () => {
   before((done) => {
     ws = new WSlibp2p()
 
-    let i = 0
-    const finish = () => {
-      i++
-      return i === 2 ? done() : null
-    }
+    expect(2).checks(done)
 
-    const wsListener = ws.createListener((socket) => {
+    wsListener = ws.createListener((socket) => {
       expect(socket).to.exist()
       listener = spdy.listener(socket)
-      expect(listener).to.exist()
-      finish()
+      expect(listener).to.exist().mark()
     })
 
     const socket = ws.dial(mh)
 
     wsListener.listen(mh, () => {
       dialer = spdy.dialer(socket)
-      expect(dialer).to.exist()
-      finish()
+      expect(dialer).to.exist().mark()
     })
+  })
+
+  after((done) => {
+    wsListener.close(done)
+  })
+  afterEach(() => {
+    sinon.restore()
   })
 
   it('open a multiplex stream from dialer', (done) => {
@@ -118,5 +121,22 @@ describe('spdy-over-ws', () => {
         done()
       })
     )
+  })
+
+  it('should be able to end the muxer', (done) => {
+    expect(2).checks(done)
+    const spy = sinon.spy(dialer.spdy, 'destroyStreams')
+
+    listener.once('error', (err) => {
+      expect.fail(err)
+    })
+    listener.once('close', (didError) => {
+      expect(didError).to.eql(false).mark()
+    })
+
+    dialer.end((err) => {
+      expect(spy.calledOnce).to.eql(true)
+      expect(err).to.not.exist().mark()
+    })
   })
 })

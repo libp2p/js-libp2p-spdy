@@ -36,9 +36,7 @@ describe('conn properties are propagated to each stream', () => {
   })
 
   after((done) => {
-    // TODO: fix listener close hanging
-    // listener.close(done)
-    done()
+    listener.close(done)
   })
 
   it('getObservedAddrs', (done) => {

@@ -2,9 +2,10 @@
 'use strict'
 
 const chai = require('chai')
-const dirtyChai = require('dirty-chai')
+chai.use(require('dirty-chai'))
+chai.use(require('chai-checkmark'))
+const sinon = require('sinon')
 const expect = chai.expect
-chai.use(dirtyChai)
 const Tcp = require('libp2p-tcp')
 const multiaddr = require('multiaddr')
 const path = require('path')
@@ -17,6 +18,7 @@ const spdy = require('../src')
 describe('spdy-over-tcp', () => {
   let listener
   let dialer
+  let tcpListener
 
   let tcp
   let mh = multiaddr('/ip4/127.0.0.1/tcp/9090')
@@ -24,9 +26,15 @@ describe('spdy-over-tcp', () => {
   before(() => {
     tcp = new Tcp()
   })
+  after((done) => {
+    tcpListener.close(done)
+  })
+  afterEach(() => {
+    sinon.restore()
+  })
 
   it('attach to a tcp socket, as listener', (done) => {
-    const tcpListener = tcp.createListener((socket) => {
+    tcpListener = tcp.createListener((socket) => {
       expect(socket).to.exist()
       listener = spdy.listener(socket)
       expect(listener).to.exist()
@@ -36,11 +44,13 @@ describe('spdy-over-tcp', () => {
   })
 
   it('attach to a tcp socket, as dialer', (done) => {
-    const socket = tcp.dial(mh)
-    expect(socket).to.exist()
+    expect(3).checks(done)
+    const socket = tcp.dial(mh, (err) => {
+      expect(err).to.not.exist().mark()
+    })
+    expect(socket).to.exist().mark()
     dialer = spdy.dialer(socket)
-    expect(dialer).to.exist()
-    done()
+    expect(dialer).to.exist().mark()
   })
 
   it('open a multiplex stream from dialer', (done) => {
@@ -115,5 +125,22 @@ describe('spdy-over-tcp', () => {
         done()
       })
     )
+  })
+
+  it('should be able to end the muxer', (done) => {
+    expect(2).checks(done)
+    const spy = sinon.spy(dialer.spdy, 'destroyStreams')
+
+    listener.once('error', (err) => {
+      expect.fail(err)
+    })
+    listener.once('close', (didError) => {
+      expect(didError).to.eql(false).mark()
+    })
+
+    dialer.end((err) => {
+      expect(spy.calledOnce).to.eql(true)
+      expect(err).to.not.exist().mark()
+    })
   })
 })

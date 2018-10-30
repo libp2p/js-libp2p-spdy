@@ -23,6 +23,12 @@ describe('spdy-generic', () => {
     listenerSocket = p[1]
   })
 
+  after((done) => {
+    listener.end((err) => {
+      done(err)
+    })
+  })
+
   it('attach to a duplex stream, as listener', () => {
     listener = spdy.listener(listenerSocket)
     expect(listener).to.exist()
