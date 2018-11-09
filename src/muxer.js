@@ -11,12 +11,7 @@ function catchError (stream) {
   return {
     source: pull(
       stream.source,
-      pullCatch((err) => {
-        if (err.code === 'ECONNRESET' || err.code === 'EPIPE') {
-          return
-        }
-        return false
-      })
+      pullCatch()
     ),
     sink: stream.sink
   }
@@ -48,13 +43,7 @@ module.exports = class Muxer extends EventEmitter {
       if (!err) {
         return noop()
       }
-      // If the connection was severed, ensure the streams
-      // are destroyed
-      if (err.code === 'ECONNRESET' || err.code === 'EPIPE') {
-        spdy.destroyStreams()
-      } else {
-        this.emit('error', err)
-      }
+      this.emit('error', err)
     })
 
     // needed by other spdy impl that need the response headers

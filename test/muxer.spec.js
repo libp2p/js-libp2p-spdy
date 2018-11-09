@@ -9,6 +9,7 @@ const sinon = require('sinon')
 
 const spdy = require('spdy-transport')
 const pair = require('pull-pair/duplex')
+const pull = require('pull-stream')
 const toStream = require('pull-stream-to-stream')
 
 const Muxer = require('../src/muxer')
@@ -42,6 +43,29 @@ describe('multiplex-muxer', () => {
     })
   })
 
+  it('catches stream errors', (done) => {
+    const stream = muxer.newStream((err) => {
+      expect(err).to.not.exist()
+      pull(
+        pull.error(Object.assign(new Error('ECONNRESET')), {
+          code: 'ECONNRESET'
+        }),
+        stream,
+        pull.onEnd((err) => {
+          expect(err).to.not.exist()
+          done()
+        })
+      )
+    })
+  })
+
+  // This logic can be removed once spdy-transport doesn't emit empty errors
+  it('should not emit an error when spdy emits an empty error', () => {
+    muxer.once('error', expect.fail)
+    muxer.spdy.emit('error')
+    muxer.removeListener('error', expect.fail)
+  })
+
   it('can get destroyed', (done) => {
     const spy = sinon.spy(spdyMuxer, 'destroyStreams')
     expect(2).checks(done)
@@ -55,5 +79,25 @@ describe('multiplex-muxer', () => {
         expect(err).to.not.exist().mark()
       })
     })
+  })
+
+  it('.end should not require a callback', () => {
+    const stub = sinon.stub(spdyMuxer, 'end').callsFake((cb) => {
+      cb()
+    })
+
+    muxer.end()
+    expect(stub.callCount).to.eql(1)
+  })
+
+  it('should emit an error if spdy does', (done) => {
+    muxer.once('error', (err) => {
+      expect(err.code).to.eql('ERR_UNKNOWN')
+      done()
+    })
+
+    muxer.spdy.emit('error', Object.assign(new Error('bad things'), {
+      code: 'ERR_UNKNOWN'
+    }))
   })
 })
