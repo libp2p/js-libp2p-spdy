@@ -1,6 +1,6 @@
 {
   "name": "libp2p-spdy",
-  "version": "0.12.1",
+  "version": "0.13.0",
   "description": "SPDY 3.1 implementation wrapper that is compatible with libp2p Stream Muxer expected interface",
   "leadMaintainer": "Jacob Heun <jacobheun@gmail.com>",
   "main": "src/index.js",
@@ -67,6 +67,8 @@
     "Francisco Baio Dias <xicombd@gmail.com>",
     "Friedel Ziegelmayer <dignifiedquire@gmail.com>",
     "JGAntunes <j.goncalo.antunes@gmail.com>",
+    "Jacob Heun <jacobheun@gmail.com>",
+    "Jacob Heun <jake@andyet.net>",
     "Richard Littauer <richard.littauer@gmail.com>",
     "greenkeeperio-bot <support@greenkeeper.io>",
     "nginnever <ginneversource@gmail.com>",
