@@ -6,6 +6,9 @@ const toPull = require('stream-to-pull-stream')
 const pullCatch = require('pull-catch')
 const pull = require('pull-stream')
 const noop = () => {}
+const debug = require('debug')
+const log = debug('spdy')
+log.error = debug('spdy:error')
 
 function catchError (stream) {
   return {
@@ -55,6 +58,22 @@ module.exports = class Muxer extends EventEmitter {
       )
       this.emit('stream', muxedConn)
     })
+  }
+
+  /**
+   * Conditionally emit errors if we have listeners. All other
+   * events are sent to EventEmitter.emit
+   *
+   * @param {string} eventName
+   * @param  {...any} args
+   * @returns {void}
+   */
+  emit (eventName, ...args) {
+    if (eventName === 'error' && !this._events.error) {
+      log.error('error', ...args)
+    } else {
+      super.emit(eventName, ...args)
+    }
   }
 
   // method added to enable pure stream muxer feeling

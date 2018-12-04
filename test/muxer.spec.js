@@ -100,4 +100,12 @@ describe('multiplex-muxer', () => {
       code: 'ERR_UNKNOWN'
     }))
   })
+
+  it('should not throw if there are no error listeners', () => {
+    muxer.removeAllListeners('error')
+
+    muxer.spdy.emit('error', Object.assign(new Error('bad things'), {
+      code: 'ERR_UNKNOWN'
+    }))
+  })
 })
