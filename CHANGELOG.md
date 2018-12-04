@@ -1,3 +1,13 @@
+<a name="0.13.1"></a>
+## [0.13.1](https://github.com/libp2p/js-libp2p-spdy/compare/v0.13.0...v0.13.1) (2018-12-04)
+
+
+### Bug Fixes
+
+* conditionally emit errors from muxer ([#84](https://github.com/libp2p/js-libp2p-spdy/issues/84)) ([17ef9ee](https://github.com/libp2p/js-libp2p-spdy/commit/17ef9ee))
+
+
+
 <a name="0.13.0"></a>
 # [0.13.0](https://github.com/libp2p/js-libp2p-spdy/compare/v0.12.1...v0.13.0) (2018-11-14)
 
