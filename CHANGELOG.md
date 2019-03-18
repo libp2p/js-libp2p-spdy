@@ -1,3 +1,13 @@
+<a name="0.13.2"></a>
+## [0.13.2](https://github.com/libp2p/js-libp2p-spdy/compare/v0.13.1...v0.13.2) (2019-03-18)
+
+
+### Bug Fixes
+
+* handle error on .end ([#85](https://github.com/libp2p/js-libp2p-spdy/issues/85)) ([f5af587](https://github.com/libp2p/js-libp2p-spdy/commit/f5af587))
+
+
+
 <a name="0.13.1"></a>
 ## [0.13.1](https://github.com/libp2p/js-libp2p-spdy/compare/v0.13.0...v0.13.1) (2018-12-04)
 
