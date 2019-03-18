@@ -5,6 +5,7 @@ const Connection = require('interface-connection').Connection
 const toPull = require('stream-to-pull-stream')
 const pullCatch = require('pull-catch')
 const pull = require('pull-stream')
+const once = require('once')
 const noop = () => {}
 const debug = require('debug')
 const log = debug('spdy')
@@ -102,7 +103,10 @@ module.exports = class Muxer extends EventEmitter {
   }
 
   end (cb) {
-    cb = cb || noop
+    cb = once(cb || noop)
+    this.spdy.once('error', (err) => {
+      cb(err)
+    })
     this.spdy.end((err) => {
       if (err && /ok/i.test(err.message)) {
         return cb()
