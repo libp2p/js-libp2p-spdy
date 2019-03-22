@@ -39,7 +39,6 @@ module.exports = class Muxer extends EventEmitter {
       if (didError && /ok/i.test(didError.message)) {
         didError = false
       }
-      spdy.destroyStreams(new Error('underlying socket has been closed'))
       this.emit('close', didError)
     })
 
@@ -103,10 +102,9 @@ module.exports = class Muxer extends EventEmitter {
   }
 
   end (cb) {
-    cb = once(cb || noop)
-    this.spdy.once('error', (err) => {
-      cb(err)
-    })
+    cb = cb ? once(cb) : noop
+    this.spdy.once('error', cb)
+    this.spdy.destroyStreams()
     this.spdy.end((err) => {
       if (err && /ok/i.test(err.message)) {
         return cb()
