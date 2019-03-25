@@ -1,3 +1,13 @@
+<a name="0.13.3"></a>
+## [0.13.3](https://github.com/libp2p/js-libp2p-spdy/compare/v0.13.2...v0.13.3) (2019-03-25)
+
+
+### Bug Fixes
+
+* destroy streams on end ([#86](https://github.com/libp2p/js-libp2p-spdy/issues/86)) ([4b1ebc7](https://github.com/libp2p/js-libp2p-spdy/commit/4b1ebc7))
+
+
+
 <a name="0.13.2"></a>
 ## [0.13.2](https://github.com/libp2p/js-libp2p-spdy/compare/v0.13.1...v0.13.2) (2019-03-18)
 
