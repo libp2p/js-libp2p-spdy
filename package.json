@@ -39,7 +39,7 @@
     "npm": ">=3.0.0"
   },
   "devDependencies": {
-    "aegir": "^18.2.1",
+    "aegir": "^18.2.2",
     "chai": "^4.2.0",
     "chai-checkmark": "^1.0.1",
     "dirty-chai": "^2.0.1",
@@ -50,7 +50,7 @@
     "pull-file": "^1.1.0",
     "pull-pair": "^1.1.0",
     "run-parallel": "^1.1.9",
-    "sinon": "^7.2.7",
+    "sinon": "^7.3.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.10.1"
   },
