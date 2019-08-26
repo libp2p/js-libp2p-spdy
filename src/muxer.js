@@ -1,5 +1,7 @@
 'use strict'
-
+/**
+ * @module  js-libp2p-spdy/muxer
+ */
 const EventEmitter = require('events').EventEmitter
 const Connection = require('interface-connection').Connection
 const toPull = require('stream-to-pull-stream')
@@ -22,8 +24,16 @@ function catchError (stream) {
 }
 
 const SPDY_CODEC = require('./spdy-codec')
-
-module.exports = class Muxer extends EventEmitter {
+/**
+ * Muxer
+ * @class
+ */
+class Muxer extends EventEmitter {
+  /**
+   *
+   * @param {*} conn
+   * @param {*} spdy 
+   */
   constructor (conn, spdy) {
     super()
 
@@ -113,3 +123,5 @@ module.exports = class Muxer extends EventEmitter {
     })
   }
 }
+
+module.exports = Muxer
