@@ -1,3 +1,6 @@
+⛔️ DEPRECATED
+libp2p-spdy is now deprecated in libp2p and will no longer be maintained. Please visit https://github.com/libp2p/js-libp2p#packages for a list of supported stream multiplexers available for js-libp2p.
+
 js-libp2p-spdy
 ==============
 
